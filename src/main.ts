@@ -5,11 +5,11 @@ import resize from "./utils";
 import { GUI } from "lil-gui";
 
 const params = {
-  pow: 1.5,
+  pow: 2.5,
 };
 
 const gui = new GUI();
-gui.add(params, "pow", 0.0, 3.0).step(0.1).name("Power");
+gui.add(params, "pow", 0.0, 5.0).step(0.1).name("Power");
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -28,6 +28,7 @@ dirLight.position.set(5, 5, 5);
 scene.add(dirLight);
 
 const radius = 0.035;
+const linvelReady = 0.025;
 const ballMesh = new THREE.Mesh(
   new THREE.SphereGeometry(radius, 32, 32),
   new THREE.MeshStandardMaterial({ color: 0xffffff }),
@@ -77,11 +78,17 @@ async function init() {
   );
   //scene.add(debugLines);
 
+  const LevelData = [
+    { model: "/m-golf-hole-1.glb", MeshNames: ["Track_Visual", "Track_Collider"] },
+    { model: "/m-golf-hole-2.glb", MeshNames: ["2_Track_Visual", "2_Track_Collider"] },
+  ]
+  const currentLevelIndex = 1 
+  const level = LevelData[currentLevelIndex]
   const loader = new GLTFLoader();
-  loader.load("/m-golf-hole-1.glb", (gltf) => {
-    const visualMesh = gltf.scene.getObjectByName("Track_Visual") as THREE.Mesh;
+  loader.load(level.model, (gltf) => {
+    const visualMesh = gltf.scene.getObjectByName(level.MeshNames[0]) as THREE.Mesh;
     const colliderMesh = gltf.scene.getObjectByName(
-      "Track_Collider",
+      level.MeshNames[1]
     ) as THREE.Mesh;
 
     if (!colliderMesh || !visualMesh) {
@@ -124,7 +131,7 @@ window.addEventListener("keydown", (e) => {
   keys[e.code] = true;
   if (e.code === "Space") {
     const v = ballBody.linvel();
-    if (Math.sqrt(v.x ** 2 + v.z ** 2) < 0.05) {
+    if (Math.sqrt(v.x ** 2 + v.z ** 2) < linvelReady) {
       const sd = new THREE.Vector3().subVectors(
         ballMesh.position,
         camera.position,
@@ -185,7 +192,7 @@ function animate() {
   arrowHelper.position.copy(ballMesh.position);
 
   const v = ballBody.linvel();
-  arrowHelper.visible = Math.sqrt(v.x ** 2 + v.z ** 2) < 0.1;
+  arrowHelper.visible = Math.sqrt(v.x ** 2 + v.z ** 2) < linvelReady;
 
   renderer.render(scene, camera);
 }
