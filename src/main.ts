@@ -38,7 +38,7 @@ scene.add(ballMesh);
 const arrowHelper = new THREE.ArrowHelper(
   new THREE.Vector3(1, 0, 0),
   new THREE.Vector3(),
-  0.5,
+  1,
   0xff0000,
 );
 scene.add(arrowHelper);
@@ -62,7 +62,7 @@ async function init() {
   ballBody = world.createRigidBody(bodyDesc);
 
   const ballCollider = RAPIER.ColliderDesc.ball(radius)
-    .setRestitution(0.0)
+    .setRestitution(0.5)
     .setFriction(1.5)
     .setMass(0.075)
     .setContactSkin(0.01);
@@ -78,30 +78,11 @@ async function init() {
   );
   //scene.add(debugLines);
 
-  const LevelData = [
-    { model: "/m-golf-hole-1.glb", MeshNames: ["Track_Visual", "Track_Collider"] },
-    { model: "/m-golf-hole-2.glb", MeshNames: ["2_Track_Visual", "2_Track_Collider"] },
-  ]
-  const currentLevelIndex = 1 
-  const level = LevelData[currentLevelIndex]
-  const loader = new GLTFLoader();
-  loader.load(level.model, (gltf) => {
-    const visualMesh = gltf.scene.getObjectByName(level.MeshNames[0]) as THREE.Mesh;
-    const colliderMesh = gltf.scene.getObjectByName(
-      level.MeshNames[1]
-    ) as THREE.Mesh;
+  function createTrimeshCollider(mesh: THREE.Mesh, world: RAPIER.World) {
+    mesh.visible = false;
+    mesh.updateWorldMatrix(true, false);
 
-    if (!colliderMesh || !visualMesh) {
-      console.error("Missing meshes!");
-      return;
-    }
-    colliderMesh.visible = false;
-
-    colliderMesh.updateWorldMatrix(true, false);
-    const geom = colliderMesh.geometry
-      .clone()
-      .applyMatrix4(colliderMesh.matrixWorld);
-
+    const geom = mesh.geometry.clone().applyMatrix4(mesh.matrixWorld);
     const vertices = geom.attributes.position.array as Float32Array;
     const indices = geom.index
       ? (geom.index.array as Uint32Array)
@@ -120,6 +101,34 @@ async function init() {
       .setContactSkin(0.01);
 
     world.createCollider(worldCollider, worldBody);
+  }
+
+  const LevelData = [
+    {
+      title: "Hole 1",
+      par: 3,
+      model: "/m-golf-holes-001.glb",
+    },
+    {
+      title: "Hole 2",
+      par: 5,
+      model: "/m-golf-holes-02.glb",
+    },
+  ];
+  const currentLevelIndex = 1;
+  const level = LevelData[currentLevelIndex];
+  const loader = new GLTFLoader();
+
+  loader.load(level.model, (gltf) => {
+    gltf.scene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+
+        if (mesh.name.toLowerCase().includes("collider")) {
+          createTrimeshCollider(mesh, world);
+        }
+      }
+    });
 
     scene.add(gltf.scene);
   });
