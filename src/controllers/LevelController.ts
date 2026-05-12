@@ -48,7 +48,7 @@ export class LevelController {
             }
           });
 
-          resolve({ scene: gltf.scene as THREE.Group, colliders });
+          resolve({ scene: gltf.scene, colliders });
         },
         undefined,
         reject,

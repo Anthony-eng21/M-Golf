@@ -1,7 +1,7 @@
 import { levels } from "../data/levels";
 
 export class GameModel {
-  public currentHoleIndex: number = 1;
+  public currentHoleIndex: number = 0;
   public strokes: number = 0;
 
   public get par(): number {

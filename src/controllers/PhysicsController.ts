@@ -5,15 +5,21 @@ interface PhysicsConfig {
   ballRadius: number;
   ballSpawn: { x: number; y: number; z: number };
   linvelThreshold: number;
+  fallThreshold?: number;
 }
 
 export class PhysicsController {
   private world!: RAPIER.World;
   private ballBody!: RAPIER.RigidBody;
   private config: PhysicsConfig;
+  private fallThreshold: number;
+
+  private lastSafePosition!: RAPIER.Vector3;
+  private spawnPosition!: RAPIER.Vector3;
 
   constructor(config: PhysicsConfig) {
     this.config = config;
+    this.fallThreshold = this.config.fallThreshold ?? -3;
   }
 
   public async init(): Promise<void> {
@@ -31,6 +37,9 @@ export class PhysicsController {
       .setCcdEnabled(true);
     this.ballBody = this.world.createRigidBody(bodyDesc);
 
+    this.lastSafePosition = this.ballBody.translation();
+    this.spawnPosition = this.ballBody.translation();
+
     const ballCollider = RAPIER.ColliderDesc.ball(this.config.ballRadius)
       .setRestitution(0.5)
       .setFriction(1.5)
@@ -41,6 +50,12 @@ export class PhysicsController {
 
   public step(): void {
     this.world.step();
+    if (this.isStationary()) {
+      this.lastSafePosition = this.ballBody.translation();
+    }
+    if (this.ballBody.translation().y < this.fallThreshold) {
+      this.resetBall();
+    }
   }
 
   public addTrimesh(vertices: Float32Array, indices: Uint32Array): void {
@@ -61,9 +76,15 @@ export class PhysicsController {
     this.ballBody.applyImpulse({ x, y, z }, true);
   }
 
-  public resetBall(x: number, y: number, z: number): void {
-    this.ballBody.setTranslation({ x, y, z }, false);
-    this.ballBody.setLinvel({ x: 0, y: 0, z: 0 }, false);
+  public resetBall(): void {
+    this.ballBody.setTranslation(this.lastSafePosition, false);
+    this.ballBody.setLinvel({ x: 0, y: 3, z: 0 }, false);
+    this.ballBody.setAngvel({ x: 0, y: 0, z: 0 }, false);
+  }
+
+  public resetToSpawn(): void {
+    this.ballBody.setTranslation(this.spawnPosition, false);
+    this.ballBody.setLinvel({ x: 0, y: 3, z: 0 }, false);
     this.ballBody.setAngvel({ x: 0, y: 0, z: 0 }, false);
   }
 

@@ -3,6 +3,7 @@ export class InputController {
   private currentRotation: number = 0;
   private shootCallback?: () => void;
   private resetCallback?: () => void;
+  private resetToSpawnCallback?: () => void;
 
   constructor() {
     window.addEventListener("keydown", (e) => this.onKeyDown(e));
@@ -12,19 +13,24 @@ export class InputController {
   private onKeyDown(e: KeyboardEvent): void {
     this.keys[e.code] = true;
     if (e.code === "Space") this.shootCallback?.();
-    if (e.code === "KeyR") this.resetCallback?.();
+    //if (e.code === "KeyR" && !e.shiftKey) this.resetCallback?.();
+    if (e.code == "KeyR" && e.shiftKey) this.resetToSpawnCallback?.();
   }
 
   private onKeyUp(e: KeyboardEvent): void {
     this.keys[e.code] = false;
   }
 
-  public onShoot(callback: () => void): void {
-    this.shootCallback = callback;
+  public onShoot(cb: () => void): void {
+    this.shootCallback = cb;
   }
 
-  public onReset(callback: () => void): void {
-    this.resetCallback = callback;
+  public onReset(cb: () => void): void {
+    this.resetCallback = cb;
+  }
+
+  public onResetToSpawn(cb: () => void): void {
+    this.resetToSpawnCallback = cb;
   }
 
   public update(): void {

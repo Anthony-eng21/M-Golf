@@ -1,4 +1,3 @@
-// src/main.ts
 import * as THREE from "three";
 import { GUI } from "lil-gui";
 import { SceneView } from "./views/SceneView";
@@ -16,7 +15,7 @@ const levelLoader = new LevelController(levels);
 
 const params = { pow: 2.5 };
 const gui = new GUI();
-gui.add(params, "pow", 0.0, 5.0).step(0.1).name("Power");
+gui.add(params, "pow", 0.0, 5.0).step(0.1).name("Power").listen();
 
 const radius = 0.035;
 const ballView = new BallView(sceneView.scene, radius);
@@ -25,24 +24,30 @@ const physics = new PhysicsController({
   ballRadius: radius,
   ballSpawn: { x: 0.5, y: 0.65, z: 0 },
   linvelThreshold: 0.025,
+  fallThreshold: levels[gameModel.currentHoleIndex].fallThreshold,
 });
 const input = new InputController();
-const viewOffset = new THREE.Vector3(-1.75, 0.6, 0);
 
 input.onShoot(() => {
   if (!physics.isStationary()) return;
-  const sd = new THREE.Vector3().subVectors(
+  const shotDir = new THREE.Vector3().subVectors(
     ballView.ballMesh.position,
     sceneView.camera.position,
   );
-  sd.y = 0;
-  sd.normalize();
-  physics.applyImpulse(sd.x * params.pow, 0, sd.z * params.pow);
+  shotDir.y = 0;
+  shotDir.normalize();
+  physics.applyImpulse(shotDir.x * params.pow, 0, shotDir.z * params.pow);
   gameModel.incrementStrokes();
 });
 
 input.onReset(() => {
-  physics.resetBall(0.5, 0.65, 0);
+  physics.resetBall();
+});
+
+input.onResetToSpawn(() => {
+  physics.resetToSpawn();
+  gameModel.resetStrokes();
+  params.pow = 2.5;
 });
 
 async function init() {
@@ -59,7 +64,7 @@ async function init() {
 
 const cameraController = new CameraController(
   sceneView.camera,
-  new THREE.Vector3(-1.75, 0.6, 0),
+  new THREE.Vector3(-1.75, 0.7, 0),
 );
 
 function animate() {
