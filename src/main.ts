@@ -13,9 +13,10 @@ const sceneView = new SceneView();
 const gameModel = new GameModel();
 const levelLoader = new LevelController(levels);
 
-const params = { pow: 2.5 };
+const params = { pow: 2.5, chipPow: 0 };
 const gui = new GUI();
-gui.add(params, "pow", 0.0, 5.0).step(0.1).name("Power").listen();
+gui.add(params, "pow", 0.1, 5.0).step(0.1).name("Power").listen();
+gui.add(params, "chipPow", 0.0, 2.5).step(0.1).name("Chip Power").listen();
 
 const radius = 0.035;
 const ballView = new BallView(sceneView.scene, radius);
@@ -36,7 +37,11 @@ input.onShoot(() => {
   );
   shotDir.y = 0;
   shotDir.normalize();
-  physics.applyImpulse(shotDir.x * params.pow, 0, shotDir.z * params.pow);
+  physics.applyImpulse(
+    shotDir.x * params.pow,
+    params.chipPow * 0.5,
+    shotDir.z * params.pow,
+  );
   gameModel.incrementStrokes();
 });
 
@@ -48,6 +53,7 @@ input.onResetToSpawn(() => {
   physics.resetToSpawn();
   gameModel.resetStrokes();
   params.pow = 2.5;
+  params.chipPow = 0;
 });
 
 async function init() {
