@@ -11,6 +11,10 @@ interface PhysicsConfig {
 export class PhysicsController {
   private world!: RAPIER.World;
   private ballBody!: RAPIER.RigidBody;
+  private eventQueue!: RAPIER.EventQueue;
+  private sensorHandle?: RAPIER.ColliderHandle;
+  private holeEnteredCallback?: () => void;
+
   private config: PhysicsConfig;
   private fallThreshold: number;
 
@@ -24,8 +28,9 @@ export class PhysicsController {
 
   public async init(): Promise<void> {
     await RAPIER.init();
-
     this.world = new RAPIER.World(this.config.gravity);
+    this.eventQueue = new RAPIER.EventQueue(true);
+
     const bodyDesc = RAPIER.RigidBodyDesc.dynamic()
       .setTranslation(
         this.config.ballSpawn.x,
@@ -44,18 +49,39 @@ export class PhysicsController {
       .setRestitution(0.5)
       .setFriction(1.5)
       .setMass(0.075)
-      .setContactSkin(0.01);
+      .setContactSkin(0.01)
+      .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
     this.world.createCollider(ballCollider, this.ballBody);
   }
 
   public step(): void {
-    this.world.step();
+    this.world.step(this.eventQueue);
+
+    this.eventQueue.drainCollisionEvents((h1, h2, started) => {
+      if (started && (h1 === this.sensorHandle || h2 === this.sensorHandle)) {
+        this.holeEnteredCallback?.();
+      }
+    });
+
     if (this.isStationary()) {
       this.lastSafePosition = this.ballBody.translation();
     }
     if (this.ballBody.translation().y < this.fallThreshold) {
       this.resetBall();
     }
+  }
+
+  public addSensor(vertices: Float32Array, indices: Uint32Array): void {
+    const bodyDesc = RAPIER.RigidBodyDesc.fixed();
+    const body = this.world.createRigidBody(bodyDesc);
+    const colliderDesc = RAPIER.ColliderDesc.trimesh(
+      vertices,
+      indices,
+      RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES,
+    ).setSensor(true);
+
+    const collider = this.world.createCollider(colliderDesc, body);
+    this.sensorHandle = collider.handle;
   }
 
   public addTrimesh(vertices: Float32Array, indices: Uint32Array): void {
@@ -74,6 +100,10 @@ export class PhysicsController {
 
   public applyImpulse(x: number, y: number, z: number): void {
     this.ballBody.applyImpulse({ x, y, z }, true);
+  }
+
+  public onHoleEntered(cb: () => void): void {
+    this.holeEnteredCallback = cb;
   }
 
   public resetBall(): void {

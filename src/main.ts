@@ -56,14 +56,22 @@ input.onResetToSpawn(() => {
   params.chipPow = 0;
 });
 
+physics.onHoleEntered(() => {
+  console.log(`Strokes Taken: ${gameModel.strokes}`);
+  gameModel.resetStrokes();
+  params.pow = 2.5;
+  params.chipPow = 0;
+});
+
 async function init() {
   await physics.init();
 
-  const { scene, colliders } = await levelLoader.load(
+  const { scene, colliders, triggers } = await levelLoader.load(
     gameModel.currentHoleIndex,
   );
   sceneView.scene.add(scene);
   colliders.forEach((c) => physics.addTrimesh(c.vertices, c.indices));
+  triggers.forEach((t) => physics.addSensor(t.vertices, t.indices));
 
   animate();
 }
