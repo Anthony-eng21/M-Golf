@@ -34,8 +34,10 @@ Blender:
 The Golf Level Design done in blender uses Planes, Nurbs Path and some modifiers. The only modifiers used for now are: Array, Curve, Solidify and, That's it!
 
 **Disclaimer**
+
 Please do not apply modifiers when modeling levels.
 
 **Contributing**
+
 Create an Issue then create a PR based off that issue with the same name.
 before committing make sure to run prettier on the code base before committing (TODO add pre-commit in the future.)
