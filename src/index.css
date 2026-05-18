@@ -78,9 +78,11 @@ div.overlay.show {
 
   p {
     font-size: 20px;
+    color: #fcfcfd;
   }
   h1 {
     font-size: 25px;
+    color: #fcfcfd;
   }
 }
 
