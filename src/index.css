@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "JetBrains Mono", monospace;
+}
+canvas {
+  display: block;
+}
+
+div.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background: #41606c;
+  opacity: 0.8;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+div.overlay.show {
+  display: flex;
+}
+.overlay.start .strokes,
+.overlay.start .score,
+.overlay.start .replay,
+.overlay.start .next,
+.overlay.start .total-strokes,
+.overlay.start .total-score,
+.overlay.start .play-again {
+  display: none;
+}
+
+.overlay.complete .play,
+.overlay.complete .total-strokes,
+.overlay.complete .total-score,
+.overlay.complete .play-again {
+  display: none;
+}
+
+.overlay.summary .play,
+.overlay.summary .replay,
+.overlay.summary .next,
+.overlay.summary .strokes,
+.overlay.summary .score,
+.overlay.summary .par {
+  display: none;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 80%;
+}
+
+@media screen and (min-width: 768px) {
+  .overlay-content {
+    max-width: 360px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .overlay-content {
+    max-width: 400px;
+  }
+}
+
+.overlay-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-size: 20px;
+  }
+  h1 {
+    font-size: 25px;
+  }
+}
+
+/*
+      Button CSS (#30) resource:
+      - https://getcssscan.com/css-buttons-examples
+      */
+
+/*Btns container*/
+.overlay-btns-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  max-width: 100%;
+}
+
+.overlay button {
+  align-items: center;
+  appearance: none;
+  background-color: #fcfcfd;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow:
+    rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+    #d6d6e7 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #36395a;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono", monospace;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+  font-size: 18px;
+}
+.overlay button:focus {
+  box-shadow:
+    #d6d6e7 0 0 0 1.5px inset,
+    rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+    #d6d6e7 0 -3px 0 inset;
+}
+
+.overlay button:hover {
+  box-shadow:
+    rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+    #d6d6e7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.overlay button:active {
+  box-shadow: #d6d6e7 0 3px 7px inset;
+  transform: translateY(2px);
+}

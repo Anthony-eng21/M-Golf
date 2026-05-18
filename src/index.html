@@ -3,68 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>M-Golf</title>
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        background: #111;
-      }
-
-      canvas {
-        display: block;
-      }
-
-      div.overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: none;
-        background: #41606c;
-        opacity: 0.75;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        padding: 2rem;
-      }
-
-      div.overlay.show {
-        display: flex;
-      }
-
-      .overlay.start .strokes,
-      .overlay.start .score,
-      .overlay.start .replay,
-      .overlay.start .next {
-        display: none;
-      }
-
-      .overlay.complete .play {
-        display: none;
-      }
-
-      .overlay button {
-        background: pink;
-        padding: 20px;
-        font-size: 16px;
-      }
-    </style>
+    <title>Mega-Golf</title>
+    <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
     <script type="module" src="./main.ts"></script>
-
     <div class="overlay">
-      <h2 class="title"></h2>
-      <p class="par"></p>
-      <p class="strokes"></p>
-      <p class="score"></p>
-      <div class="overlay-btns">
-        <button class="play">Play</button>
-        <button class="replay">Replay</button>
-        <button class="next">Next Hole</button>
+      <div class="overlay-content">
+        <div class="overlay-text-container">
+          <h2 class="title"></h2>
+          <p class="par"></p>
+          <p class="strokes"></p>
+          <p class="score"></p>
+          <p class="total-strokes"></p>
+          <p class="total-score"></p>
+        </div>
+        <div class="overlay-btns-container">
+          <button class="play">Play</button>
+          <button class="next">Next Hole</button>
+          <button class="replay">Replay Hole</button>
+          <button class="play-again">Play Again</button>
+        </div>
       </div>
     </div>
   </body>

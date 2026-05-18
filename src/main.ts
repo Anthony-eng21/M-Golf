@@ -48,6 +48,9 @@ input.onShoot(() => {
 
 input.onReset(() => {
   physics.resetBall();
+  gameModel.resetStrokes();
+  physics.resetToSpawn();
+  input.resetRotation();
 });
 
 input.onResetToSpawn(() => {
@@ -64,10 +67,23 @@ const overlay = new OverlayController(gameModel, {
     physics.resetToSpawn();
     gameModel.resetStrokes();
     input.enable();
+    params.pow = 2.5;
+    params.chipPow = 0;
+    input.resetRotation();
   },
   onNextLevel: async () => {
+    if (gameModel.isLastHole()) {
+      gameModel.commitStrokes();
+      overlay.showOverlay("summary");
+      return;
+    }
+    gameModel.commitStrokes();
     overlay.hideOverlay();
     gameModel.nextHole();
+    physics.setSpawn(levels[gameModel.currentHoleIndex].spawn);
+    physics.setFallThreshold(
+      levels[gameModel.currentHoleIndex].fallThreshold ?? -3,
+    );
     await loadLevel(gameModel.currentHoleIndex);
     overlay.showOverlay("start");
     params.pow = 2.5;
@@ -77,6 +93,14 @@ const overlay = new OverlayController(gameModel, {
   onPlay: () => {
     overlay.hideOverlay();
     input.enable();
+  },
+  onPlayAgain: async () => {
+    gameModel.resetGame();
+    input.resetRotation();
+    physics.setSpawn(levels[0].spawn);
+    physics.setFallThreshold(levels[0].fallThreshold ?? -3);
+    await loadLevel(0);
+    overlay.showOverlay("start");
   },
 });
 
