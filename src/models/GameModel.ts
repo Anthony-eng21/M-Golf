@@ -1,7 +1,7 @@
 import { levels } from "../data/levels";
 
 export class GameModel {
-  public currentHoleIndex: number = 1;
+  public currentHoleIndex: number = 0;
   public strokes: number = 0;
 
   public get par(): number {
@@ -24,5 +24,9 @@ export class GameModel {
   public nextHole(): void {
     this.currentHoleIndex++;
     this.strokes = 0;
+  }
+
+  public isLastHole(): boolean {
+    return this.currentHoleIndex >= levels.length - 1;
   }
 }

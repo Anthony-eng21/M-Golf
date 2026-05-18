@@ -8,6 +8,7 @@ import { LevelController } from "./controllers/LevelController";
 import { GameModel } from "./models/GameModel";
 import { levels } from "./data/levels";
 import { CameraController } from "./controllers/CameraController";
+import { OverlayController } from "./controllers/OverlayController";
 
 const sceneView = new SceneView();
 const gameModel = new GameModel();
@@ -23,7 +24,7 @@ const ballView = new BallView(sceneView.scene, radius);
 const physics = new PhysicsController({
   gravity: { x: 0, y: -9.81, z: 0 },
   ballRadius: radius,
-  ballSpawn: { x: 0.5, y: 0.65, z: 0 },
+  ballSpawn: levels[gameModel.currentHoleIndex].spawn,
   linvelThreshold: 0.025,
   fallThreshold: levels[gameModel.currentHoleIndex].fallThreshold,
 });
@@ -54,25 +55,51 @@ input.onResetToSpawn(() => {
   gameModel.resetStrokes();
   params.pow = 2.5;
   params.chipPow = 0;
+  input.resetRotation();
 });
 
-physics.onHoleEntered(() => {
-  console.log(`Strokes Taken: ${gameModel.strokes}`);
-  gameModel.resetStrokes();
-  params.pow = 2.5;
-  params.chipPow = 0;
+const overlay = new OverlayController(gameModel, {
+  onReplay: () => {
+    overlay.hideOverlay();
+    physics.resetToSpawn();
+    gameModel.resetStrokes();
+    input.enable();
+  },
+  onNextLevel: async () => {
+    overlay.hideOverlay();
+    gameModel.nextHole();
+    await loadLevel(gameModel.currentHoleIndex);
+    overlay.showOverlay("start");
+    params.pow = 2.5;
+    params.chipPow = 0;
+    input.resetRotation();
+  },
+  onPlay: () => {
+    overlay.hideOverlay();
+    input.enable();
+  },
 });
 
-async function init() {
-  await physics.init();
+async function loadLevel(idx: number): Promise<void> {
+  const { scene, colliders, triggers } = await levelLoader.load(idx);
+  physics.setSpawn(levels[idx].spawn);
+  physics.setFallThreshold(levels[idx].fallThreshold ?? -3);
+  physics.resetWorld();
+  sceneView.setLevel(scene);
 
-  const { scene, colliders, triggers } = await levelLoader.load(
-    gameModel.currentHoleIndex,
-  );
-  sceneView.scene.add(scene);
   colliders.forEach((c) => physics.addTrimesh(c.vertices, c.indices));
   triggers.forEach((t) => physics.addSensor(t.vertices, t.indices));
 
+  physics.onHoleEntered(() => {
+    input.disable();
+    overlay.showOverlay("complete");
+  });
+}
+
+async function init() {
+  await physics.init();
+  await loadLevel(gameModel.currentHoleIndex);
+  overlay.showOverlay("start");
   animate();
 }
 

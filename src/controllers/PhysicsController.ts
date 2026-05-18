@@ -26,8 +26,7 @@ export class PhysicsController {
     this.fallThreshold = this.config.fallThreshold ?? -3;
   }
 
-  public async init(): Promise<void> {
-    await RAPIER.init();
+  private setupWorld(): void {
     this.world = new RAPIER.World(this.config.gravity);
     this.eventQueue = new RAPIER.EventQueue(true);
 
@@ -52,6 +51,17 @@ export class PhysicsController {
       .setContactSkin(0.01)
       .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
     this.world.createCollider(ballCollider, this.ballBody);
+  }
+
+  public async init(): Promise<void> {
+    await RAPIER.init();
+    this.setupWorld();
+  }
+
+  public resetWorld(): void {
+    this.world.free();
+    this.sensorHandle = undefined;
+    this.setupWorld();
   }
 
   public step(): void {
@@ -110,6 +120,14 @@ export class PhysicsController {
     this.ballBody.setTranslation(this.lastSafePosition, false);
     this.ballBody.setLinvel({ x: 0, y: 3, z: 0 }, false);
     this.ballBody.setAngvel({ x: 0, y: 0, z: 0 }, false);
+  }
+
+  public setFallThreshold(value: number): void {
+    this.fallThreshold = value;
+  }
+
+  public setSpawn(spawn: { x: number; y: number; z: number }): void {
+    this.config.ballSpawn = spawn;
   }
 
   public resetToSpawn(): void {
