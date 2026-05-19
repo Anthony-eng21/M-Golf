@@ -55,8 +55,10 @@ export class OverlayController {
       const parDiff = this.gameModel.strokes - this.gameModel.par;
       if (parDiff > 0) {
         this.scoreEl.textContent = `${parDiff} over par`;
+        this.scoreEl.className = "score over-par";
       } else if (parDiff < 0) {
         this.scoreEl.textContent = `${Math.abs(parDiff)} under par`;
+        this.scoreEl.className = "score under-par";
       } else {
         this.scoreEl.textContent = `Even par!`;
       }
@@ -67,12 +69,14 @@ export class OverlayController {
 
     if (mode === "summary") {
       this.titleEl.textContent = "Game Complete!";
-      this.totalStrokesEl.textContent = `Total Strokes: ${this.gameModel.totalStrokes}`;
+      this.totalStrokesEl.textContent = `Total Strokes: ${this.gameModel.totalStrokes} out of ${this.gameModel.totalPar}`;
       const totalDiff = this.gameModel.totalStrokes - this.gameModel.totalPar;
       if (totalDiff > 0) {
         this.totalScoreEl.textContent = `${totalDiff} over par`;
+        this.totalScoreEl.className = "total-score over-par";
       } else if (totalDiff < 0) {
         this.totalScoreEl.textContent = `${Math.abs(totalDiff)} under par`;
+        this.totalScoreEl.className = "total-score under-par";
       } else {
         this.totalScoreEl.textContent = `Even par!`;
       }

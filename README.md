@@ -17,6 +17,16 @@ npm install
 npm run dev
 ```
 
+**Initiatives**
+
+Some Running Initiatives to do before we can release the game:
+
+- [ ] **Create More Blender Golf Levels**. We want ideally around 36-72 for the game, at first let's shoot for at least 18.
+
+- [ ] **Create Dedicated Game Menu** for courses (1 course to many hole levels) Right now this doesn't exist and we just have the in-level overlay.
+
+- [ ] **Custom Shaders** implementation (we don't want baked materials) we want realtime shaders and small glb (currently around 300kb for holes 1 & 2) and bundle sizes.
+
 **Resources**
 
 Physics:

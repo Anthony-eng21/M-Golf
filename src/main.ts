@@ -97,6 +97,8 @@ const overlay = new OverlayController(gameModel, {
   onPlayAgain: async () => {
     gameModel.resetGame();
     input.resetRotation();
+    params.pow = 2.5;
+    params.chipPow = 0;
     physics.setSpawn(levels[0].spawn);
     physics.setFallThreshold(levels[0].fallThreshold ?? -3);
     await loadLevel(0);

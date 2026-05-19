@@ -7,6 +7,12 @@ canvas {
   display: block;
 }
 
+/*
+-------------------
+Overlay CSS 
+-------------------
+*/
+
 div.overlay {
   position: fixed;
   top: 0;
@@ -75,21 +81,34 @@ div.overlay.show {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: #d3d3d392;
+  opacity: 1;
+  border-radius: 0.25em;
+  margin-bottom: 1em;
 
   p {
     font-size: 20px;
     color: #fcfcfd;
   }
+
   h1 {
     font-size: 25px;
     color: #fcfcfd;
   }
+
+  .over-par {
+    color: red;
+  }
+
+  .under-par {
+    color: green;
+  }
 }
 
 /*
-      Button CSS (#30) resource:
-      - https://getcssscan.com/css-buttons-examples
-      */
+ Button CSS (#30) resource:
+  - https://getcssscan.com/css-buttons-examples
+*/
 
 /*Btns container*/
 .overlay-btns-container {
