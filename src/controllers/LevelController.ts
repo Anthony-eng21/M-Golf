@@ -41,9 +41,12 @@ export class LevelController {
               (child as THREE.Mesh).isMesh ||
               (child as THREE.Group).isGroup
             ) {
+              child.receiveShadow = true;
               const mesh = child as THREE.Mesh;
               const group = child as THREE.Group;
+
               if (nameIncludes("collider", mesh)) {
+                child.receiveShadow = false;
                 mesh.visible = false;
                 mesh.updateWorldMatrix(true, false);
                 const geom = mesh.geometry
@@ -56,6 +59,7 @@ export class LevelController {
                 colliders.push({ vertices, indices });
               }
               if (nameIncludes("trigger", mesh)) {
+                child.receiveShadow = false;
                 mesh.visible = false;
                 mesh.updateWorldMatrix(true, false);
                 const geom = mesh.geometry

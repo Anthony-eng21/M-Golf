@@ -28,6 +28,8 @@ export class PhysicsController {
 
   private setupWorld(): void {
     this.world = new RAPIER.World(this.config.gravity);
+    // https://docs.rs/rapier3d/latest/rapier3d/dynamics/struct.IntegrationParameters.html#structfield.dt
+    this.world.integrationParameters.dt = 1.0 / 60.0; // FIXED: 0.0167s refresh rate
     this.eventQueue = new RAPIER.EventQueue(true);
 
     const bodyDesc = RAPIER.RigidBodyDesc.dynamic()
@@ -48,7 +50,6 @@ export class PhysicsController {
       .setRestitution(0.5)
       .setFriction(1.5)
       .setMass(0.075)
-      .setContactSkin(0.01)
       .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
     this.world.createCollider(ballCollider, this.ballBody);
   }

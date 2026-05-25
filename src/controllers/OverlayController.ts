@@ -61,6 +61,7 @@ export class OverlayController {
         this.scoreEl.className = "score under-par";
       } else {
         this.scoreEl.textContent = `Even par!`;
+        this.scoreEl.className = "score";
       }
       this.nextBtn.textContent = this.gameModel.isLastHole()
         ? "Finish"

@@ -30,6 +30,12 @@ const physics = new PhysicsController({
 });
 const input = new InputController();
 
+const resetBall = (): void => {
+  params.pow = 2.5;
+  params.chipPow = 0;
+  input.resetRotation();
+};
+
 input.onShoot(() => {
   if (!physics.isStationary()) return;
   const shotDir = new THREE.Vector3().subVectors(
@@ -56,9 +62,7 @@ input.onReset(() => {
 input.onResetToSpawn(() => {
   physics.resetToSpawn();
   gameModel.resetStrokes();
-  params.pow = 2.5;
-  params.chipPow = 0;
-  input.resetRotation();
+  resetBall();
 });
 
 const overlay = new OverlayController(gameModel, {
@@ -67,9 +71,7 @@ const overlay = new OverlayController(gameModel, {
     physics.resetToSpawn();
     gameModel.resetStrokes();
     input.enable();
-    params.pow = 2.5;
-    params.chipPow = 0;
-    input.resetRotation();
+    resetBall();
   },
   onNextLevel: async () => {
     if (gameModel.isLastHole()) {
@@ -86,9 +88,7 @@ const overlay = new OverlayController(gameModel, {
     );
     await loadLevel(gameModel.currentHoleIndex);
     overlay.showOverlay("start");
-    params.pow = 2.5;
-    params.chipPow = 0;
-    input.resetRotation();
+    resetBall();
   },
   onPlay: () => {
     overlay.hideOverlay();
@@ -96,9 +96,7 @@ const overlay = new OverlayController(gameModel, {
   },
   onPlayAgain: async () => {
     gameModel.resetGame();
-    input.resetRotation();
-    params.pow = 2.5;
-    params.chipPow = 0;
+    resetBall();
     physics.setSpawn(levels[0].spawn);
     physics.setFallThreshold(levels[0].fallThreshold ?? -3);
     await loadLevel(0);
@@ -147,6 +145,7 @@ function animate() {
     new THREE.Quaternion(r.x, r.y, r.z, r.w),
   );
 
+  sceneView.updateBallLight(t.x, t.y, t.z);
   cameraController.update(ballView.ballMesh.position, input.getRotation());
 
   const aimDir = new THREE.Vector3().subVectors(
@@ -155,7 +154,13 @@ function animate() {
   );
   aimDir.y = 0;
   aimDir.normalize();
-  ballView.updateArrow(aimDir, physics.isStationary());
+  console.log(aimDir);
+  ballView.updateArrow(
+    aimDir,
+    physics.isStationary(),
+    params.pow,
+    params.chipPow,
+  );
 
   sceneView.render();
 }
