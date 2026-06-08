@@ -50,6 +50,7 @@ export class PhysicsController {
       .setRestitution(0.5)
       .setFriction(1.5)
       .setMass(0.075)
+      .setContactSkin(0.0025)
       .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
     this.world.createCollider(ballCollider, this.ballBody);
   }

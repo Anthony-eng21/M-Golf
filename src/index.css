@@ -170,3 +170,155 @@ div.overlay.show {
   box-shadow: #d6d6e7 0 3px 7px inset;
   transform: translateY(2px);
 }
+
+/*
+-------------------
+HUD Slider CSS 
+-------------------
+*/
+
+.hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.slider-container {
+  position: absolute;
+  bottom: 2em;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
+  background: #d3d3d350;
+  border-radius: 12px;
+  padding: 20px;
+  pointer-events: all;
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    outline: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 16px;
+      border-radius: 10px;
+      background:
+        linear-gradient(
+          to right,
+          transparent 0 var(--pc),
+          rgba(0, 0, 0, 0.5) var(--pc) 100%
+        ),
+        linear-gradient(to right, green, yellow, red);
+    }
+
+    &::-moz-range-track {
+      width: 100%;
+      height: 16px;
+      border-radius: 10px;
+      background:
+        linear-gradient(
+          to right,
+          transparent 0 var(--pc),
+          rgba(0, 0, 0, 0.5) var(--pc) 100%
+        ),
+        linear-gradient(to right, green, yellow, red);
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      margin-top: -8px; /* correction: mt = (trackHeight - thumbHeight) / 2 */
+      background: url("../public/golf-svgrepo-com.png") no-repeat center;
+      background-size: contain;
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: url("../public/golf-svgrepo-com.png") no-repeat center;
+      background-size: contain;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
+}
+
+.slider-container.vertical {
+  bottom: auto;
+  top: 50%;
+  right: 2em;
+  transform: translateY(-50%);
+  width: auto;
+
+  .slider-card {
+    width: auto;
+    height: 50vh;
+    padding: 20px 14px;
+
+    .slider {
+      /* https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/range#creating_vertical_range_controls */
+      writing-mode: vertical-lr;
+      direction: rtl;
+      width: 16px;
+      height: 100%;
+
+      &::-webkit-slider-runnable-track {
+        width: 16px;
+        height: 100%;
+        background:
+          linear-gradient(
+            to top,
+            transparent 0 var(--pc),
+            rgba(0, 0, 0, 0.5) var(--pc) 100%
+          ),
+          linear-gradient(to top, green, yellow, red);
+      }
+
+      &::-moz-range-track {
+        width: 16px;
+        height: 100%;
+        background:
+          linear-gradient(
+            to top,
+            transparent 0 var(--pc),
+            rgba(0, 0, 0, 0.5) var(--pc) 100%
+          ),
+          linear-gradient(to top, green, yellow, red);
+      }
+
+      &::-webkit-slider-thumb {
+        margin-left: -8px;
+      }
+    }
+  }
+}

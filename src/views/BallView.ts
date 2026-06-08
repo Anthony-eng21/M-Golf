@@ -4,6 +4,7 @@ export class BallView {
   public ballMesh: THREE.Mesh;
   public arrowHelper: THREE.ArrowHelper;
   public radius: number;
+  private launchVec: THREE.Vector3;
 
   constructor(scene: THREE.Scene, radius: number) {
     this.radius = radius;
@@ -11,6 +12,7 @@ export class BallView {
       new THREE.SphereGeometry(radius, 32, 32),
       new THREE.MeshStandardMaterial({ color: 0xffffff }),
     );
+    this.launchVec = new THREE.Vector3();
     this.ballMesh.castShadow = true;
     scene.add(this.ballMesh);
 
@@ -40,8 +42,8 @@ export class BallView {
 
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
-    const launchVec = new THREE.Vector3(aimDir.x * cos, sin, aimDir.z * cos);
-    this.arrowHelper.setDirection(launchVec);
+    this.launchVec.set(aimDir.x * cos, sin, aimDir.z * cos);
+    this.arrowHelper.setDirection(this.launchVec);
     this.arrowHelper.position.copy(this.ballMesh.position);
     this.arrowHelper.setLength(0.5 + power / 2, 0.25, 0.05);
 
