@@ -1,77 +1,66 @@
 import * as THREE from "three";
-import { GUI } from "lil-gui";
+
 import { SceneView } from "./views/SceneView";
 import { BallView } from "./views/BallView";
+
 import { PhysicsController } from "./controllers/PhysicsController";
 import { InputController } from "./controllers/InputController";
 import { LevelController } from "./controllers/LevelController";
-import { GameModel } from "./models/GameModel";
-import { levels } from "./data/levels";
 import { CameraController } from "./controllers/CameraController";
 import { OverlayController } from "./controllers/OverlayController";
+
+import { GameModel } from "./models/GameModel";
+import { levels } from "./data/levels";
+import { HUDView } from "./views/HUDView";
 
 const sceneView = new SceneView();
 const gameModel = new GameModel();
 const levelLoader = new LevelController(levels);
 
-const params = { pow: 2.5, chipPow: 0 };
-const gui = new GUI();
-gui.add(params, "pow", 0.1, 5.0).step(0.1).name("Power").listen();
-gui.add(params, "chipPow", 0.0, 2.5).step(0.1).name("Chip Power").listen();
-
 const radius = 0.035;
 const ballView = new BallView(sceneView.scene, radius);
+const hudView = new HUDView();
 const physics = new PhysicsController({
   gravity: { x: 0, y: -9.81, z: 0 },
   ballRadius: radius,
   ballSpawn: levels[gameModel.currentHoleIndex].spawn,
-  linvelThreshold: 0.025,
+  linvelThreshold: 0.1,
   fallThreshold: levels[gameModel.currentHoleIndex].fallThreshold,
 });
 const input = new InputController();
 
-const resetBall = (): void => {
-  params.pow = 2.5;
-  params.chipPow = 0;
+const resetBallInput = (): void => {
+  hudView.setSliderValues();
   input.resetRotation();
 };
 
 input.onShoot(() => {
   if (!physics.isStationary()) return;
+  const { pow, chip } = hudView.getSliderValues();
   const shotDir = new THREE.Vector3().subVectors(
     ballView.ballMesh.position,
     sceneView.camera.position,
   );
   shotDir.y = 0;
   shotDir.normalize();
-  physics.applyImpulse(
-    shotDir.x * params.pow,
-    params.chipPow * 0.5,
-    shotDir.z * params.pow,
-  );
+  physics.applyImpulse(shotDir.x * pow, chip * 0.5, shotDir.z * pow);
   gameModel.incrementStrokes();
-});
-
-input.onReset(() => {
-  physics.resetBall();
-  gameModel.resetStrokes();
-  physics.resetToSpawn();
-  input.resetRotation();
 });
 
 input.onResetToSpawn(() => {
   physics.resetToSpawn();
   gameModel.resetStrokes();
-  resetBall();
+  resetBallInput();
 });
 
 const overlay = new OverlayController(gameModel, {
   onReplay: () => {
     overlay.hideOverlay();
+    hudView.showSliders();
     physics.resetToSpawn();
     gameModel.resetStrokes();
     input.enable();
-    resetBall();
+    resetBallInput();
   },
   onNextLevel: async () => {
     if (gameModel.isLastHole()) {
@@ -88,15 +77,16 @@ const overlay = new OverlayController(gameModel, {
     );
     await loadLevel(gameModel.currentHoleIndex);
     overlay.showOverlay("start");
-    resetBall();
+    resetBallInput();
   },
   onPlay: () => {
     overlay.hideOverlay();
+    hudView.showSliders();
     input.enable();
   },
   onPlayAgain: async () => {
     gameModel.resetGame();
-    resetBall();
+    resetBallInput();
     physics.setSpawn(levels[0].spawn);
     physics.setFallThreshold(levels[0].fallThreshold ?? -3);
     await loadLevel(0);
@@ -117,6 +107,7 @@ async function loadLevel(idx: number): Promise<void> {
   physics.onHoleEntered(() => {
     input.disable();
     overlay.showOverlay("complete");
+    hudView.hideSliders();
   });
 }
 
@@ -134,6 +125,7 @@ const cameraController = new CameraController(
 
 function animate() {
   requestAnimationFrame(animate);
+  const { pow, chip } = hudView.getSliderValues();
 
   input.update();
   physics.step();
@@ -154,13 +146,7 @@ function animate() {
   );
   aimDir.y = 0;
   aimDir.normalize();
-  console.log(aimDir);
-  ballView.updateArrow(
-    aimDir,
-    physics.isStationary(),
-    params.pow,
-    params.chipPow,
-  );
+  ballView.updateArrow(aimDir, physics.isStationary(), pow, chip);
 
   sceneView.render();
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>M-Golf</title>
     <!--FlatIcon Author: https://www.flaticon.com/authors/ylivdesign-->
-    <link rel="icon" type="image/png" href="/golfball-icon.png" />
+    <link rel="icon" type="image/png" href="/golf-svgrepo-com.png" />
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
@@ -25,6 +25,35 @@
           <button class="next">Next Hole</button>
           <button class="replay">Replay Hole</button>
           <button class="play-again">Play Again</button>
+        </div>
+      </div>
+    </div>
+    <div class="hud">
+      <div class="slider-container">
+        <div class="slider-card">
+          <input
+            type="range"
+            class="slider"
+            id="xz-linvel-f"
+            max="5"
+            min="0.1"
+            step="0.1"
+            value="2.5"
+            list="markers"
+          />
+        </div>
+      </div>
+      <div class="slider-container vertical">
+        <div class="slider-card">
+          <input
+            type="range"
+            class="slider"
+            id="y-linvel-f"
+            max="2.5"
+            min="0"
+            step="0.1"
+            value="0"
+          />
         </div>
       </div>
     </div>

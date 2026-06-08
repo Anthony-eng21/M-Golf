@@ -2,7 +2,6 @@ export class InputController {
   private keys: Record<string, boolean> = {};
   private currentRotation: number = 0;
   private shootCallback?: () => void;
-  private resetCallback?: () => void;
   private resetToSpawnCallback?: () => void;
   private active: boolean = false;
   constructor() {
@@ -21,8 +20,7 @@ export class InputController {
     if (!this.active) return;
     this.keys[e.code] = true;
     if (e.code === "Space") this.shootCallback?.();
-    //if (e.code === "KeyR" && !e.shiftKey) this.resetCallback?.();
-    if (e.code == "KeyR" && e.shiftKey) this.resetToSpawnCallback?.();
+    if (e.code == "KeyR" && e.ctrlKey) this.resetToSpawnCallback?.();
   }
 
   private onKeyUp(e: KeyboardEvent): void {
@@ -31,10 +29,6 @@ export class InputController {
 
   public onShoot(cb: () => void): void {
     this.shootCallback = cb;
-  }
-
-  public onReset(cb: () => void): void {
-    this.resetCallback = cb;
   }
 
   public onResetToSpawn(cb: () => void): void {
