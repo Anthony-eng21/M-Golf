@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { LevelDefinition } from "../data/levels";
 
 export interface ColliderData {
