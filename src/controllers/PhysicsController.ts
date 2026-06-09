@@ -69,7 +69,7 @@ export class PhysicsController {
   public step(): void {
     this.world.step(this.eventQueue);
 
-    this.eventQueue.drainCollisionEvents((h1, h2, started) => {
+    this.eventQueue.drainCollisionEvents((h1: number, h2: number, started: boolean) => {
       if (started && (h1 === this.sensorHandle || h2 === this.sensorHandle)) {
         this.holeEnteredCallback?.();
       }
