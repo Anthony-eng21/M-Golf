@@ -28,8 +28,6 @@ export class PhysicsController {
 
   private setupWorld(): void {
     this.world = new RAPIER.World(this.config.gravity);
-    // https://docs.rs/rapier3d/latest/rapier3d/dynamics/struct.IntegrationParameters.html#structfield.dt
-    this.world.integrationParameters.dt = 1.0 / 60.0; // FIXED: 0.0167s refresh rate
     this.eventQueue = new RAPIER.EventQueue(true);
 
     const bodyDesc = RAPIER.RigidBodyDesc.dynamic()
@@ -48,7 +46,7 @@ export class PhysicsController {
 
     const ballCollider = RAPIER.ColliderDesc.ball(this.config.ballRadius)
       .setRestitution(0.5)
-      .setFriction(1.5)
+      .setFriction(1.6)
       .setMass(0.075)
       .setContactSkin(0.0025)
       .setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
@@ -69,11 +67,13 @@ export class PhysicsController {
   public step(): void {
     this.world.step(this.eventQueue);
 
-    this.eventQueue.drainCollisionEvents((h1: number, h2: number, started: boolean) => {
-      if (started && (h1 === this.sensorHandle || h2 === this.sensorHandle)) {
-        this.holeEnteredCallback?.();
-      }
-    });
+    this.eventQueue.drainCollisionEvents(
+      (h1: number, h2: number, started: boolean) => {
+        if (started && (h1 === this.sensorHandle || h2 === this.sensorHandle)) {
+          this.holeEnteredCallback?.();
+        }
+      },
+    );
 
     if (this.isStationary()) {
       this.lastSafePosition = this.ballBody.translation();

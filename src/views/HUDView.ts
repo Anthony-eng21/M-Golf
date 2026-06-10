@@ -41,25 +41,6 @@ export class HUDView {
     };
   }
 
-  public bindPowerChange(
-    handler: (values: { pow: number; chip: number }) => void,
-  ): void {
-    const getValues = () => ({
-      pow: parseFloat(this.powerSlider?.value),
-      chip: parseFloat(this.chipSlider?.value),
-    });
-
-    this.powerSlider?.addEventListener("input", () => {
-      this.updateSliderFill(this.powerSlider);
-      handler(getValues());
-    });
-
-    this.chipSlider?.addEventListener("input", () => {
-      this.updateSliderFill(this.chipSlider);
-      handler(getValues());
-    });
-  }
-
   public setSliderValues(values?: { pow?: number; chip?: number }): void {
     if (this.powerSlider) {
       this.powerSlider.value =

@@ -123,13 +123,22 @@ const cameraController = new CameraController(
   new THREE.Vector3(-1.75, 0.7, 0),
 );
 
+const clock = new THREE.Clock();
+let physicsAccumulator = 0;
+const PHYSICS_TIMESTEP = 1 / 60;
+
 function animate() {
   requestAnimationFrame(animate);
   const { pow, chip } = hudView.getSliderValues();
 
-  input.update();
-  physics.step();
+  const deltaTime = Math.min(clock.getDelta(), 0.1);
+  physicsAccumulator += deltaTime;
 
+  input.update();
+  while (physicsAccumulator >= PHYSICS_TIMESTEP) {
+    physics.step();
+    physicsAccumulator -= PHYSICS_TIMESTEP;
+  }
   const t = physics.getBallPosition();
   const r = physics.getBallQuaternion();
   ballView.sync(
