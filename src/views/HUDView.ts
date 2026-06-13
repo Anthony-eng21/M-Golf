@@ -1,4 +1,5 @@
 export class HUDView {
+  private mobileButtons: NodeListOf<HTMLElement>;
   private powerSlider: HTMLInputElement;
   private chipSlider: HTMLInputElement;
   private containers: NodeListOf<HTMLElement>;
@@ -9,6 +10,7 @@ export class HUDView {
     ) as HTMLInputElement;
     this.chipSlider = document.getElementById("y-linvel-f") as HTMLInputElement;
     this.containers = document.querySelectorAll(".slider-container");
+    this.mobileButtons = document.querySelectorAll(".mobile-input-btn");
 
     if (this.powerSlider)
       this.powerSlider.value = this.powerSlider.defaultValue;
@@ -21,6 +23,7 @@ export class HUDView {
 
   private initListeners(): void {
     const preventKey = (e: KeyboardEvent) => {
+      //prevent keydown on arrows events from manipulating the range inputs/power sliders
       if (e.key) e.preventDefault();
     };
     this.powerSlider?.addEventListener("keydown", preventKey);

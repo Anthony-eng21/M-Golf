@@ -12,7 +12,6 @@ canvas {
 Overlay CSS 
 -------------------
 */
-
 div.overlay {
   position: fixed;
   top: 0;
@@ -68,7 +67,7 @@ div.overlay.show {
   }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1033px) {
   .overlay-content {
     max-width: 400px;
   }
@@ -79,13 +78,32 @@ div.overlay.show {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #d3d3d395;
+  background: #725d5d;
+  background-image: url("../public/sun-tornado.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   border-radius: 0.25em;
   margin-bottom: 1em;
 
   p {
-    font-size: 20px;
+    font-size: 18px;
     color: #fcfcfd;
+    text-align: center;
+  }
+
+  p.score,
+  p.total-score {
+    font-weight: bolder;
+  }
+
+  @media screen and (min-width: 1033px) {
+    p {
+      font-size: 20px;
+    }
   }
 
   h1 {
@@ -94,7 +112,7 @@ div.overlay.show {
   }
 
   .over-par {
-    color: red;
+    color: darkred;
   }
 
   .under-par {
@@ -106,7 +124,6 @@ div.overlay.show {
  Button CSS (#30) resource:
   - https://getcssscan.com/css-buttons-examples
 */
-
 /*Btns container*/
 .overlay-btns-container {
   display: flex;
@@ -115,7 +132,7 @@ div.overlay.show {
   max-width: 100%;
 }
 
-.overlay button {
+button {
   align-items: center;
   appearance: none;
   background-color: #fcfcfd;
@@ -150,7 +167,7 @@ div.overlay.show {
   will-change: box-shadow, transform;
   font-size: 18px;
 }
-.overlay button:focus {
+button:focus {
   box-shadow:
     #d6d6e7 0 0 0 1.5px inset,
     rgba(45, 35, 66, 0.4) 0 2px 4px,
@@ -158,7 +175,7 @@ div.overlay.show {
     #d6d6e7 0 -3px 0 inset;
 }
 
-.overlay button:hover {
+button:hover {
   box-shadow:
     rgba(45, 35, 66, 0.4) 0 4px 8px,
     rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
@@ -166,7 +183,7 @@ div.overlay.show {
   transform: translateY(-2px);
 }
 
-.overlay button:active {
+button:active {
   box-shadow: #d6d6e7 0 3px 7px inset;
   transform: translateY(2px);
 }
@@ -186,6 +203,94 @@ HUD Slider CSS
   pointer-events: none;
 }
 
+/*
+-------------------
+Mobile Input CSS
+-------------------
+*/
+.mobile-input-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 0 0.75em 0;
+
+  @media screen and (min-width: 1033px) {
+    display: none;
+  }
+
+  /*inclusive to large tablets using landscape orientation*/
+  @media screen and (max-height: 1033px) and (max-width: 1376px) and (orientation: landscape) and (pointer: coarse) {
+    display: flex;
+  }
+}
+
+.mobile-input-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  align-items: center;
+  pointer-events: all;
+  width: 85vw;
+  height: 1em;
+  padding: 15px;
+  border-radius: 12px;
+  padding: 15px;
+  background: #d3d3d350;
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+  @media screen and (min-width: 1033px) {
+    width: 50vw;
+  }
+  button {
+    height: 32px;
+    max-width: 250px;
+    width: 33%;
+    font-size: 16px;
+    background-color: #d3d3d375;
+    color: #fff;
+    box-shadow:
+      rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+    span {
+      font-size: 24px;
+    }
+
+    @media screen and (min-width: 768px) {
+      span {
+        font-size: 32px;
+      }
+    }
+  }
+
+  button:active {
+    box-shadow: #00000075 0 1px 7px inset;
+    transform: translateY(2px);
+    color: #d4d4d5d4;
+  }
+
+  button.input-shoot {
+    background-image: url("../public/fair-way-btn.svg");
+    background-position: center;
+    background-size: auto;
+    background-color: #00bb77;
+    background-repeat: no-repeat;
+  }
+
+  button.input-shoot:active {
+    color: red;
+  }
+}
+
+/*
+-------------------
+Range Input CSS
+-------------------
+*/
 .slider-container {
   position: absolute;
   bottom: 2em;
@@ -193,21 +298,28 @@ HUD Slider CSS
   display: none;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .slider-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50vw;
+  width: 85vw;
+  padding: 15px;
   background: #d3d3d350;
   border-radius: 12px;
-  padding: 20px;
   pointer-events: all;
   box-shadow:
     rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+  @media screen and (min-width: 1033px) {
+    width: 50vw;
+    padding: 20px;
+  }
+
   .slider {
     -webkit-appearance: none;
     appearance: none;
@@ -276,14 +388,24 @@ HUD Slider CSS
 .slider-container.vertical {
   bottom: auto;
   top: 50%;
-  right: 2em;
+  right: 0.75em;
   transform: translateY(-50%);
   width: auto;
+  height: 100vh;
+
+  @media screen and (min-width: 1033px) {
+    right: 2em;
+  }
 
   .slider-card {
     width: auto;
-    height: 50vh;
-    padding: 20px 14px;
+    height: 32.5vh;
+    padding: 17px 12px;
+
+    @media screen and (min-width: 1033px) {
+      height: 45vh;
+      padding: 20px 14px;
+    }
 
     .slider {
       /* https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/range#creating_vertical_range_controls */
@@ -319,6 +441,37 @@ HUD Slider CSS
       &::-webkit-slider-thumb {
         margin-left: -8px;
       }
+    }
+  }
+}
+
+/*Mobile Input Landscape CSS*/
+@media screen and (min-width: 320px) and (max-width: 950px) and (orientation: landscape) {
+  .mobile-input-container {
+    margin: 0 0 0.375em 0;
+
+    .mobile-input-card {
+      height: 0.75em;
+      width: 62.5vw;
+      padding: 12px 15px;
+
+      button {
+        height: 24px;
+      }
+    }
+  }
+}
+
+/*Mobile Range Input Landscape CSS*/
+@media screen and (min-width: 320px) and (max-width: 950px) and (orientation: landscape) {
+  .slider-card {
+    width: 62.5vw;
+    padding: 8px 16px;
+  }
+
+  .slider-container.vertical {
+    .slider-card {
+      height: 50vh;
     }
   }
 }
