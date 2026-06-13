@@ -4,9 +4,51 @@ export class InputController {
   private shootCallback?: () => void;
   private resetToSpawnCallback?: () => void;
   private active: boolean = false;
+
+  private isAimingLeft: boolean = false;
+  private isAimingRight: boolean = false;
+
   constructor() {
     window.addEventListener("keydown", (e) => this.onKeyDown(e));
     window.addEventListener("keyup", (e) => this.onKeyUp(e));
+
+    this.initMobileListeners();
+  }
+
+  private initMobileListeners(): void {
+    const mobileShoot = document.getElementById("mobile-shoot");
+    mobileShoot?.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      if (this.active) this.shootCallback?.();
+    });
+
+    const mobileLeft = document.getElementById("mobile-left");
+    mobileLeft?.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      this.isAimingLeft = true;
+    });
+    mobileLeft?.addEventListener("pointerup", (e) => {
+      e.preventDefault();
+      this.isAimingLeft = false;
+    });
+    mobileLeft?.addEventListener("pointerleave", (e) => {
+      e.preventDefault();
+      this.isAimingLeft = false;
+    });
+
+    const mobileRight = document.getElementById("mobile-right");
+    mobileRight?.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      this.isAimingRight = true;
+    });
+    mobileRight?.addEventListener("pointerup", (e) => {
+      e.preventDefault();
+      this.isAimingRight = false;
+    });
+    mobileRight?.addEventListener("pointerleave", (e) => {
+      e.preventDefault();
+      this.isAimingRight = false;
+    });
   }
 
   public enable(): void {
@@ -15,6 +57,8 @@ export class InputController {
 
   public disable(): void {
     this.active = false;
+    this.isAimingLeft = false;
+    this.isAimingRight = false;
   }
   private onKeyDown(e: KeyboardEvent): void {
     if (!this.active) return;
@@ -36,9 +80,9 @@ export class InputController {
   }
 
   public update(): void {
-    if (this.keys["KeyD"] || this.keys["ArrowRight"])
+    if (this.keys["KeyD"] || this.keys["ArrowRight"] || this.isAimingRight)
       this.currentRotation -= 0.03;
-    if (this.keys["KeyA"] || this.keys["ArrowLeft"])
+    if (this.keys["KeyA"] || this.keys["ArrowLeft"] || this.isAimingLeft)
       this.currentRotation += 0.03;
   }
 
