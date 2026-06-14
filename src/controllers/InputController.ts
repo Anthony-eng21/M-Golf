@@ -1,5 +1,6 @@
 export class InputController {
   private keys: Record<string, boolean> = {};
+  private isShiftDown: boolean = false;
   private currentRotation: number = 0;
   private shootCallback?: () => void;
   private resetToSpawnCallback?: () => void;
@@ -16,6 +17,17 @@ export class InputController {
   }
 
   private initMobileListeners(): void {
+    const sensitivityLabel = document.getElementById("aim-sensitivity-mode");
+    const sensitivitySwitch = document.getElementById("aim-sensitivity-switch");
+    sensitivitySwitch?.addEventListener("change", (e) => {
+      const target = e.target as HTMLInputElement;
+      this.isShiftDown = target.checked;
+
+      if (sensitivityLabel) {
+        sensitivityLabel.textContent = target.checked ? "Fast Aim" : "Slow Aim";
+      }
+    });
+
     const mobileShoot = document.getElementById("mobile-shoot");
     mobileShoot?.addEventListener("pointerdown", (e) => {
       e.preventDefault();
@@ -62,12 +74,14 @@ export class InputController {
   }
   private onKeyDown(e: KeyboardEvent): void {
     if (!this.active) return;
+    if (e.key === "Shift") this.isShiftDown = true;
     this.keys[e.code] = true;
     if (e.code === "Space") this.shootCallback?.();
     if (e.code == "KeyR" && e.ctrlKey) this.resetToSpawnCallback?.();
   }
 
   private onKeyUp(e: KeyboardEvent): void {
+    if (e.key === "Shift") this.isShiftDown = false;
     this.keys[e.code] = false;
   }
 
@@ -80,15 +94,13 @@ export class InputController {
   }
 
   public update(): void {
-    if (this.keys["KeyD"] || this.keys["ArrowRight"]) {
-      this.currentRotation -= 0.03;
-    } else if (this.isAimingRight) {
-      this.currentRotation -= 0.015;
+    const rotationSpeed = this.isShiftDown ? 0.01 * 0.5 : 0.015;
+    const aimSensitivity = rotationSpeed;
+    if (this.keys["KeyD"] || this.keys["ArrowRight"] || this.isAimingRight) {
+      this.currentRotation -= aimSensitivity;
     }
-    if (this.keys["KeyA"] || this.keys["ArrowLeft"]) {
-      this.currentRotation += 0.03;
-    } else if (this.isAimingLeft) {
-      this.currentRotation += 0.015;
+    if (this.keys["KeyA"] || this.keys["ArrowLeft"] || this.isAimingLeft) {
+      this.currentRotation += aimSensitivity;
     }
   }
 
