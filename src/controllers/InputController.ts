@@ -80,10 +80,16 @@ export class InputController {
   }
 
   public update(): void {
-    if (this.keys["KeyD"] || this.keys["ArrowRight"] || this.isAimingRight)
+    if (this.keys["KeyD"] || this.keys["ArrowRight"]) {
       this.currentRotation -= 0.03;
-    if (this.keys["KeyA"] || this.keys["ArrowLeft"] || this.isAimingLeft)
+    } else if (this.isAimingRight) {
+      this.currentRotation -= 0.015;
+    }
+    if (this.keys["KeyA"] || this.keys["ArrowLeft"]) {
       this.currentRotation += 0.03;
+    } else if (this.isAimingLeft) {
+      this.currentRotation += 0.015;
+    }
   }
 
   resetRotation(): void {
