@@ -1,6 +1,10 @@
 <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'>
+<!-- 
+  Written By @Anthony-Eng21 on Github. C0 Icon;
+  This SVG is dedicated to the public domain under the Creative Commons CC0 1.0 Universal Public Domain Dedication.
+  To view a copy of this license, visit: https://creativecommons.org/publicdomain/zero/1.0/
+-->
   <rect fill='#00bb77' width='120' height='100%'/>
-  <rect fill='#fff' fill-opacity='.1' x='15' y='0' width='90' height='120' transform="rotate(90, 60, 60)"/>
   
   <circle cx='55' cy='57' r='5' fill='white' fill-opacity='0.9'/>
   <rect x='60' y='55' width='17' height='4' rx='0' fill='#444' transform="rotate(90, 68.5, 57)" />

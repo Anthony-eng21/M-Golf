@@ -10,7 +10,6 @@ export class HUDView {
     ) as HTMLInputElement;
     this.chipSlider = document.getElementById("y-linvel-f") as HTMLInputElement;
     this.containers = document.querySelectorAll(".slider-container");
-    this.mobileButtons = document.querySelectorAll(".mobile-input-btn");
 
     if (this.powerSlider)
       this.powerSlider.value = this.powerSlider.defaultValue;

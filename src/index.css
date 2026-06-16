@@ -205,10 +205,10 @@ HUD Slider CSS
 
 /*
 -------------------
-Mobile Input CSS
+User Input CSS
 -------------------
 */
-.mobile-input-container {
+.input-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -216,14 +216,19 @@ Mobile Input CSS
   width: 100%;
   margin: 0 0 0.75em 0;
 
+  /* 
+  --------
+  Change back to flex if we decide to hide the Input UI on desktop
+  --------
   @media screen and (min-width: 1033px) {
     display: none;
   }
 
-  /*inclusive to large tablets using landscape orientation*/
+  /*inclusive to large tablets using landscape orientation/
   @media screen and (max-height: 1033px) and (max-width: 1376px) and (orientation: landscape) and (pointer: coarse) {
     display: flex;
   }
+  */
 }
 
 .aim-sensitivity-container {
@@ -272,7 +277,7 @@ Mobile Input CSS
   }
 }
 
-.mobile-input-card {
+.input-card {
   display: flex;
   justify-content: space-between;
   gap: 5px;
@@ -290,6 +295,7 @@ Mobile Input CSS
 
   @media screen and (min-width: 1033px) {
     width: 50vw;
+    padding: 20px;
   }
   button {
     height: 32px;
@@ -312,6 +318,9 @@ Mobile Input CSS
         font-size: 32px;
       }
     }
+    @media screen and (min-width: 1033px) {
+      max-width: 325px;
+    }
   }
 
   button:active {
@@ -323,7 +332,7 @@ Mobile Input CSS
   button.input-shoot {
     background-image: url("../public/fair-way-btn.svg");
     background-position: center;
-    background-size: auto;
+    background-size: 130px;
     background-color: #00bb77;
     background-repeat: no-repeat;
   }
@@ -335,7 +344,7 @@ Mobile Input CSS
 
 /*
 -------------------
-Range Input CSS
+Slider Range Input CSS
 -------------------
 */
 .slider-container {
@@ -377,6 +386,7 @@ Range Input CSS
     transition: opacity 0.2s;
 
     &:hover {
+      cursor: pointer;
       opacity: 1;
     }
 
@@ -494,10 +504,10 @@ Range Input CSS
 
 /*Mobile Input Landscape CSS*/
 @media screen and (min-width: 320px) and (max-width: 950px) and (orientation: landscape) {
-  .mobile-input-container {
+  .input-container {
     margin: 0 0 0.375em 0;
 
-    .mobile-input-card {
+    .input-card {
       height: 0.75em;
       width: 62.5vw;
       padding: 12px 15px;
