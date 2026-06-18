@@ -28,12 +28,14 @@ export class HUDView {
     this.powerSlider?.addEventListener("keydown", preventKey);
     this.chipSlider?.addEventListener("keydown", preventKey);
 
-    this.powerSlider?.addEventListener("input", () =>
-      this.updateSliderFill(this.powerSlider),
-    );
-    this.chipSlider?.addEventListener("input", () =>
-      this.updateSliderFill(this.chipSlider),
-    );
+    this.powerSlider?.addEventListener("input", () => {
+      this.updateSliderFill(this.powerSlider);
+      this.shakeSlider(this.powerSlider, 0.75, "X");
+    });
+    this.chipSlider?.addEventListener("input", () => {
+      this.updateSliderFill(this.chipSlider);
+      this.shakeSlider(this.chipSlider, 0.6, "Y");
+    });
   }
 
   public getSliderValues(): { pow: number; chip: number } {
@@ -49,6 +51,7 @@ export class HUDView {
         values?.pow !== undefined
           ? values.pow.toString()
           : this.powerSlider.defaultValue;
+      this.powerSlider.className = "slider";
       this.updateSliderFill(this.powerSlider);
     }
 
@@ -57,6 +60,7 @@ export class HUDView {
         values?.chip !== undefined
           ? values.chip.toString()
           : this.chipSlider.defaultValue;
+      this.chipSlider.className = "slider";
       this.updateSliderFill(this.chipSlider);
     }
   }
@@ -69,6 +73,22 @@ export class HUDView {
     const max = parseFloat(slider.max);
     const percentage = ((val - min) / (max - min)) * 100;
     slider.style.setProperty("--pc", `${percentage}%`);
+  }
+
+  private shakeSlider(
+    slider: HTMLInputElement,
+    targetVal: number,
+    dir: string,
+  ): void {
+    const val = parseFloat(slider.value);
+    const max = parseFloat(slider.max);
+    const target = max * targetVal;
+
+    if (val > target) {
+      slider.className = `slider shake${dir}`;
+    } else if (val < target) {
+      slider.className = "slider";
+    }
   }
 
   public showSliders(): void {
