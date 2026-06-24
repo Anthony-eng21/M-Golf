@@ -24,7 +24,7 @@ const physics = new PhysicsController({
   gravity: { x: 0, y: -9.81, z: 0 },
   ballRadius: radius,
   ballSpawn: levels[gameModel.currentHoleIndex].spawn,
-  linvelThreshold: 0.1,
+  linvelThreshold: 0.05,
   fallThreshold: levels[gameModel.currentHoleIndex].fallThreshold,
 });
 const input = new InputController();

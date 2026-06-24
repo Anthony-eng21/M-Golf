@@ -16,9 +16,16 @@ export const levels: LevelDefinition[] = [
   },
   {
     title: "Hole 2",
-    par: 5,
+    par: 3,
     model: "/m-golf-holes-002.glb",
     fallThreshold: -4,
+    spawn: { x: 0.5, y: 0.65, z: 0 },
+  },
+  {
+    title: "Hole 3",
+    par: 3,
+    model: "/m-golf-holes-003.glb",
+    fallThreshold: -8,
     spawn: { x: 0.5, y: 0.65, z: 0 },
   },
 ];
