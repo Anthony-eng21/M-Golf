@@ -19,9 +19,16 @@ export class InputController {
     window.addEventListener("keyup", (e) => this.onKeyUp(e));
     window.addEventListener("keydown", (e) => this.onKeyDown(e));
 
+    const inputReset = document.getElementById("input-reset");
+    inputReset?.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.resetToSpawnCallback?.();
+    });
+
     const sensitivityLabel = document.getElementById("aim-sensitivity-mode");
     const sensitivitySwitch = document.getElementById("aim-sensitivity-switch");
     sensitivitySwitch?.addEventListener("change", (e) => {
+      e.preventDefault();
       const target = e.target as HTMLInputElement;
       this.isSlowed = target.checked;
 

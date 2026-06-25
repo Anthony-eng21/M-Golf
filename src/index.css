@@ -231,49 +231,85 @@ User Input CSS
   */
 }
 
-.aim-sensitivity-container {
+.small-btn-input-container {
   display: flex;
   width: 88vw;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 3px;
 
   @media screen and (min-width: 1033px) {
-    width: 50vw;
+    width: 52vw;
   }
 
-  span#aim-sensitivity-mode {
-    color: #cfd8dc;
-    font-size: small;
-    user-select: none;
+  .aim-sensitivity-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span#aim-sensitivity-mode {
+      color: #cfd8dc;
+      font-size: small;
+      user-select: none;
+    }
+
+    .switch {
+      pointer-events: all;
+      --inactive-bg: #cfd8dc75;
+      --active-bg: #00e67675;
+      --size: 1.1rem;
+      appearance: none;
+      width: calc(var(--size) * 2.2);
+      height: var(--size);
+      display: inline-block;
+      border-radius: calc(var(--size) / 2);
+      cursor: pointer;
+      background-color: var(--inactive-bg);
+      background-image:
+        radial-gradient(circle calc(var(--size) / 2.1), #fff 100%, #0000 0),
+        radial-gradient(circle calc(var(--size) / 1.5), #0003 0%, #0000 100%);
+      background-repeat: no-repeat;
+      background-position: calc(var(--size) / -1.75) 0;
+      transition: background 0.2s ease-out;
+      box-shadow:
+        rgba(45, 35, 66, 0.4) 0 2px 4px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+        #7b7b7b75 0 -2px 0 inset;
+    }
+    .switch:checked {
+      background-color: var(--active-bg);
+      background-position: calc(var(--size) / 1.75) 0;
+    }
   }
 
-  .switch {
-    pointer-events: all;
-    --inactive-bg: #cfd8dc75;
-    --active-bg: #00e67675;
-    --size: 1.1rem;
-    appearance: none;
-    width: calc(var(--size) * 2.2);
-    height: var(--size);
-    display: inline-block;
-    border-radius: calc(var(--size) / 2);
-    cursor: pointer;
-    background-color: var(--inactive-bg);
-    background-image:
-      radial-gradient(circle calc(var(--size) / 2.1), #fff 100%, #0000 0),
-      radial-gradient(circle calc(var(--size) / 1.5), #0003 0%, #0000 100%);
-    background-repeat: no-repeat;
-    background-position: calc(var(--size) / -1.75) 0;
-    transition: background 0.2s ease-out;
-    box-shadow:
-      rgba(45, 35, 66, 0.4) 0 2px 4px,
-      rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
-      #7b7b7b75 0 -2px 0 inset;
-  }
-  .switch:checked {
-    background-color: var(--active-bg);
-    background-position: calc(var(--size) / 1.75) 0;
+  .reset-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    span#reset-hole-text {
+      color: #cfd8dc;
+      font-size: small;
+      user-select: none;
+    }
+
+    button {
+      pointer-events: all;
+      cursor: pointer;
+      width: calc(2 * 1.1rem);
+      height: 1.025rem;
+      border-radius: 40px;
+      background-color: #d3d3d375;
+      background-image: url("../public/reset.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      box-shadow:
+        rgba(45, 35, 66, 0.4) 0 2px 4px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+        #7b7b7b75 0 -2px 0 inset;
+    }
   }
 }
 
@@ -565,7 +601,7 @@ Slider Range Input CSS
         height: 24px;
       }
     }
-    .aim-sensitivity-container {
+    .small-btn-input-container {
       width: 65vw;
     }
   }
