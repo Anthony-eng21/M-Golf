@@ -3,7 +3,9 @@ export interface LevelDefinition {
   par: number;
   model: string;
   fallThreshold?: number;
+  cameraRotation?: { x: number; y: number; z: number };
   spawn: { x: number; y: number; z: number };
+  useAdaptiveCamera?: { active: boolean; lerpNudge: number; lerpSpeed: number };
 }
 
 export const levels: LevelDefinition[] = [
@@ -27,5 +29,13 @@ export const levels: LevelDefinition[] = [
     model: "/m-golf-holes-003.glb",
     fallThreshold: -8,
     spawn: { x: 0.5, y: 0.65, z: 0 },
+  },
+  {
+    title: "Hole 4",
+    par: 5,
+    model: "/m-golf-holes-004.glb",
+    fallThreshold: -15,
+    spawn: { x: 0, y: 0.65, z: 0 },
+    useAdaptiveCamera: { active: true, lerpNudge: 1.5, lerpSpeed: 0.035 },
   },
 ];

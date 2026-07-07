@@ -147,7 +147,17 @@ function animate() {
   );
 
   sceneView.updateBallLight(t.x, t.y, t.z);
-  cameraController.update(ballView.ballMesh.position, input.getRotation());
+  cameraController.update(
+    ballView.ballMesh.position,
+    input.getRotation(),
+    sceneView.scene,
+    !physics.isStationary(),
+    levels[gameModel.currentHoleIndex].useAdaptiveCamera ?? {
+      active: false,
+      lerpNudge: 0,
+      lerpSpeed: 0,
+    },
+  );
 
   const aimDir = new THREE.Vector3().subVectors(
     ballView.ballMesh.position,
