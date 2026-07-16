@@ -1,16 +1,24 @@
 import * as THREE from "three";
+import vert from "./shaders/ball-shader/vertexShader.glsl";
+import uvFrag from "./shaders/ball-shader/fragUVNoise.glsl";
+import fragToon from "./shaders/ball-shader/fragToon.glsl";
+import fragCQuad from "./shaders/ball-shader/fragCQuad.glsl";
 
 export class BallView {
   public ballMesh: THREE.Mesh;
   public arrowHelper: THREE.ArrowHelper;
   public radius: number;
   private launchVec: THREE.Vector3;
+  private toonMaterial: THREE.ShaderMaterial;
 
   constructor(scene: THREE.Scene, radius: number) {
     this.radius = radius;
     this.ballMesh = new THREE.Mesh(
       new THREE.SphereGeometry(radius, 32, 32),
-      new THREE.MeshStandardMaterial({ color: 0xffffff }),
+      new THREE.ShaderMaterial({
+        vertexShader: vert,
+        fragmentShader: fragToon,
+      }),
     );
     this.launchVec = new THREE.Vector3();
     this.ballMesh.castShadow = true;

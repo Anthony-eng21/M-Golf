@@ -112,6 +112,7 @@ export class PhysicsController {
 
   public applyImpulse(x: number, y: number, z: number): void {
     this.ballBody.applyImpulse({ x, y, z }, true);
+    this.ballBody.setAngvel(new RAPIER.Vector3(z, 0, -x * 16), true);
   }
 
   public onHoleEntered(cb: () => void): void {
