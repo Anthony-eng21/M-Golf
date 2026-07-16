@@ -391,6 +391,14 @@ Slider Range Input CSS
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  label {
+    font-size: small;
+    color: #cfd8dc;
+    white-space: nowrap;
+    text-align: center;
+    user-select: none;
+  }
 }
 
 .slider-card {

@@ -21,7 +21,9 @@ export class SceneView {
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
-      logarithmicDepthBuffer: true,
+      // Issue: Shader material behind Other Material
+      // source: https://discourse.threejs.org/t/shadematerial-goes-behind-other-material-mesh/40053/4
+      // logarithmicDepthBuffer: true, // solution to remove this line
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.shadowMap.enabled = true;
@@ -44,8 +46,6 @@ export class SceneView {
     this.dirLight.shadow.camera.top = 3;
     this.dirLight.shadow.camera.bottom = -3;
     this.scene.add(this.dirLight);
-    const lHelper = new THREE.CameraHelper(this.dirLight.shadow.camera);
-    //this.scene.add(lHelper);
   }
 
   public updateBallLight(x: number, y: number, z: number): void {
