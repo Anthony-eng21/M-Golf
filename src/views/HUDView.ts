@@ -2,6 +2,7 @@ export class HUDView {
   private mobileButtons: NodeListOf<HTMLElement>;
   private powerSlider: HTMLInputElement;
   private chipSlider: HTMLInputElement;
+  private topContainer: HTMLDivElement;
   private containers: NodeListOf<HTMLElement>;
 
   constructor() {
@@ -10,6 +11,8 @@ export class HUDView {
     ) as HTMLInputElement;
     this.chipSlider = document.getElementById("y-linvel-f") as HTMLInputElement;
     this.containers = document.querySelectorAll(".slider-container");
+
+    this.topContainer = document.querySelector(".top-input-container");
 
     if (this.powerSlider)
       this.powerSlider.value = this.powerSlider.defaultValue;
@@ -93,9 +96,11 @@ export class HUDView {
 
   public showSliders(): void {
     this.containers.forEach((container) => (container.style.display = "flex"));
+    this.topContainer.style.display = "flex";
   }
 
   public hideSliders(): void {
     this.containers.forEach((container) => (container.style.display = "none"));
+    this.topContainer.style.display = "none";
   }
 }

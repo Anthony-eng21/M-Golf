@@ -208,48 +208,21 @@ HUD Slider CSS
 User Input CSS
 -------------------
 */
-.input-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.top-input-container {
+  display: none;
   width: 100%;
-  margin: 0 0 0.75em 0;
-
-  /* 
-  --------
-  Change back to flex if we decide to hide the Input UI on desktop
-  --------
-  @media screen and (min-width: 1033px) {
-    display: none;
-  }
-
-  /*inclusive to large tablets using landscape orientation/
-  @media screen and (max-height: 1033px) and (max-width: 1376px) and (orientation: landscape) and (pointer: coarse) {
-    display: flex;
-  }
-  */
-}
-
-.small-btn-input-container {
-  display: flex;
-  width: 88vw;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 3px;
-
-  @media screen and (min-width: 1033px) {
-    width: 52vw;
-  }
+  gap: 0.25em;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.25em 0 0 1.25em;
 
   .aim-sensitivity-container {
     display: flex;
-    justify-content: center;
     align-items: center;
 
     span#aim-sensitivity-mode {
       color: #cfd8dc;
-      font-size: small;
+      font-size: 12px;
       user-select: none;
     }
 
@@ -275,6 +248,7 @@ User Input CSS
         rgba(45, 35, 66, 0.4) 0 2px 4px,
         rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
         #7b7b7b75 0 -2px 0 inset;
+      margin-left: 0;
     }
     .switch:checked {
       background-color: var(--active-bg);
@@ -284,13 +258,12 @@ User Input CSS
 
   .reset-container {
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 4px;
 
     span#reset-hole-text {
       color: #cfd8dc;
-      font-size: small;
+      font-size: 12px;
       user-select: none;
     }
 
@@ -311,6 +284,29 @@ User Input CSS
         #7b7b7b75 0 -2px 0 inset;
     }
   }
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 0.75em 0;
+
+  /* 
+  --------
+  Change back to flex if we decide to hide the Input UI on desktop
+  --------
+  @media screen and (min-width: 1033px) {
+    display: none;
+  }
+
+  /*inclusive to large tablets using landscape orientation/
+  @media screen and (max-height: 1033px) and (max-width: 1376px) and (orientation: landscape) and (pointer: coarse) {
+    display: flex;
+  }
+  */
 }
 
 .input-card {
@@ -608,9 +604,6 @@ Slider Range Input CSS
       button {
         height: 24px;
       }
-    }
-    .small-btn-input-container {
-      width: 65vw;
     }
   }
 

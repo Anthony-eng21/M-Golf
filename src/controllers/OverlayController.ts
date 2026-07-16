@@ -51,18 +51,31 @@ export class OverlayController {
     this.parEl.textContent = `Par ${this.gameModel.par}`;
 
     if (mode === "complete") {
-      this.strokesEl.textContent = `Strokes: ${this.gameModel.strokes}`;
-      const parDiff = this.gameModel.strokes - this.gameModel.par;
-      if (parDiff > 0) {
-        this.scoreEl.textContent = `${parDiff} over par`;
-        this.scoreEl.className = "score over-par";
-      } else if (parDiff < 0) {
-        this.scoreEl.textContent = `${Math.abs(parDiff)} under par`;
-        this.scoreEl.className = "score under-par";
-      } else {
-        this.scoreEl.textContent = `Even par!`;
-        this.scoreEl.className = "score";
-      }
+      const strokes = this.gameModel.strokes;
+      const parDiff = strokes - this.gameModel.par;
+      this.strokesEl.textContent = `Strokes: ${strokes}`;
+
+      const terms = {
+        [-3]: "Albatross",
+        [-2]: "Eagle",
+        [-1]: "Birdie",
+        0: "Par",
+        1: "Bogey",
+        2: "Double Bogey",
+        3: "Triple Bogey",
+      };
+
+      this.scoreEl.textContent =
+        strokes === 1
+          ? "Hole In One!"
+          : terms[parDiff] ||
+            (parDiff > 0 ? `${parDiff} Over Par` : `${parDiff} Under Par`);
+
+      this.scoreEl.className =
+        parDiff === 0
+          ? "score"
+          : `score ${parDiff > 0 ? "over-par" : "under-par"}`;
+
       this.nextBtn.textContent = this.gameModel.isLastHole()
         ? "Finish"
         : "Next Hole";

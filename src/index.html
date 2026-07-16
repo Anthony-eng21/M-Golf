@@ -33,23 +33,23 @@
       </div>
     </div>
     <div class="hud">
+      <div class="top-input-container">
+        <div class="reset-container">
+          <button id="input-reset"></button>
+          <span id="reset-hole-text">Reset Hole</span>
+        </div>
+        <div class="aim-sensitivity-container">
+          <input
+            id="aim-sensitivity-switch"
+            class="switch"
+            type="checkbox"
+            autocomplete="off"
+          />
+          <span id="aim-sensitivity-mode">Slow Aim</span>
+        </div>
+      </div>
       <div class="slider-container">
         <div class="input-container">
-          <div class="small-btn-input-container">
-            <div class="reset-container">
-              <button id="input-reset"></button>
-              <span id="reset-hole-text">Reset Hole</span>
-            </div>
-            <div class="aim-sensitivity-container">
-              <span id="aim-sensitivity-mode">Slow Aim</span>
-              <input
-                id="aim-sensitivity-switch"
-                class="switch"
-                type="checkbox"
-                autocomplete="off"
-              />
-            </div>
-          </div>
           <div class="input-card">
             <button
               id="input-left"
@@ -72,7 +72,7 @@
             </button>
           </div>
         </div>
-        <label for="pow">Hit Power</label>
+        <label for="pow">Swing Power</label>
         <div class="slider-card">
           <input
             name="pow"
