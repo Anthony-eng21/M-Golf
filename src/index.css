@@ -211,14 +211,14 @@ User Input CSS
 .top-input-container {
   display: none;
   width: 100%;
-  gap: 0.25em;
+  gap: 0.75em;
   flex-direction: column;
   align-items: flex-start;
   padding: 1.25em 0 0 1.25em;
 
   .aim-sensitivity-container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
 
     span#aim-sensitivity-mode {
       color: #cfd8dc;
@@ -235,6 +235,7 @@ User Input CSS
       width: calc(var(--size) * 2.2);
       height: var(--size);
       display: inline-block;
+      margin-left: -2px;
       border-radius: calc(var(--size) / 2);
       cursor: pointer;
       background-color: var(--inactive-bg);
@@ -248,7 +249,6 @@ User Input CSS
         rgba(45, 35, 66, 0.4) 0 2px 4px,
         rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
         #7b7b7b75 0 -2px 0 inset;
-      margin-left: 0;
     }
     .switch:checked {
       background-color: var(--active-bg);
@@ -258,7 +258,7 @@ User Input CSS
 
   .reset-container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 4px;
 
     span#reset-hole-text {
