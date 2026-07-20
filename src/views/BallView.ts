@@ -17,7 +17,7 @@ export class BallView {
       new THREE.SphereGeometry(radius, 32, 32),
       new THREE.ShaderMaterial({
         vertexShader: vert,
-        fragmentShader: fragToon,
+        fragmentShader: uvFrag,
       }),
     );
     this.launchVec = new THREE.Vector3();
