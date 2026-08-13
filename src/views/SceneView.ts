@@ -10,6 +10,7 @@ export class SceneView {
 
   constructor() {
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x000000);
     this.dirLight = new THREE.DirectionalLight(0xffffff, 1);
 
     this.camera = new THREE.PerspectiveCamera(
@@ -21,9 +22,11 @@ export class SceneView {
 
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
-      // Issue: Shader material behind Other Material
-      // source: https://discourse.threejs.org/t/shadematerial-goes-behind-other-material-mesh/40053/4
-      // logarithmicDepthBuffer: true, // solution to remove this line
+      /*
+       * Shader issue problem line
+       * https://discourse.threejs.org/t/shadematerial-goes-behind-other-material-mesh/40053/4
+       * logarithmicDepthBuffer: true,
+       */
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.shadowMap.enabled = true;

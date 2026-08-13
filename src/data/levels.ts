@@ -20,7 +20,7 @@ export const levels: LevelDefinition[] = [
     title: "Hole 2",
     par: 3,
     model: "/m-golf-holes-002.glb",
-    fallThreshold: -4,
+    fallThreshold: -6,
     spawn: { x: 0.5, y: 0.65, z: 0 },
   },
   {
@@ -29,6 +29,14 @@ export const levels: LevelDefinition[] = [
     model: "/m-golf-holes-003.glb",
     fallThreshold: -15,
     spawn: { x: 0, y: 0.65, z: 0 },
+    useAdaptiveCamera: { active: true, lerpNudge: 1.5, lerpSpeed: 0.035 },
+  },
+  {
+    title: "Hole 4",
+    par: 5,
+    model: "/m-golf-holes-4f6.glb",
+    fallThreshold: -24,
+    spawn: { x: 0.5, y: 0.65, z: 0 },
     useAdaptiveCamera: { active: true, lerpNudge: 1.5, lerpSpeed: 0.035 },
   },
 ];

@@ -151,7 +151,6 @@ function animate() {
     ballView.ballMesh.position,
     input.getRotation(),
     sceneView.scene,
-    !physics.isStationary(),
     levels[gameModel.currentHoleIndex].useAdaptiveCamera ?? {
       active: false,
       lerpNudge: 0,

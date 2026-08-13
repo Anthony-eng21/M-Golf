@@ -16,7 +16,6 @@ export class CameraController {
     ballPosition: THREE.Vector3,
     rotation: number,
     scene: THREE.Scene,
-    isBallMoving: boolean,
     useAdaptiveCamera: {
       active: boolean;
       lerpNudge: number;
@@ -30,7 +29,7 @@ export class CameraController {
       .copy(this.offset)
       .applyAxisAngle(new THREE.Vector3(0, 1, 0), rotation);
 
-    if (isBallMoving && !!useAdaptiveCamera.active) {
+    if (!!useAdaptiveCamera.active) {
       const idealPosition = new THREE.Vector3()
         .copy(ballPosition)
         .add(rotatedOffset);
