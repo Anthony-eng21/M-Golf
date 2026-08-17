@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import type { HDRI } from "./data/types.ts";
 
 import { SceneView } from "./views/SceneView";
 import { BallView } from "./views/BallView";
@@ -95,9 +96,18 @@ const overlay = new OverlayController(gameModel, {
 });
 
 async function loadLevel(idx: number): Promise<void> {
+  const level = levels[idx];
   const { scene, colliders, triggers } = await levelLoader.load(idx);
-  physics.setSpawn(levels[idx].spawn);
-  physics.setFallThreshold(levels[idx].fallThreshold ?? -3);
+  const hdr = {
+    url: level?.hdr?.url,
+    envIntensity: level?.hdr?.envIntensity,
+    bgIntensity: level?.hdr?.bgIntensity,
+    blur: level?.hdr?.blur,
+  } as HDRI;
+  level.hdr && (await sceneView.setBackground(hdr));
+
+  physics.setSpawn(level.spawn);
+  physics.setFallThreshold(level.fallThreshold ?? -3);
   physics.resetWorld();
   sceneView.setLevel(scene);
 

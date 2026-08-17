@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import resize from "../utils";
+import { HDRLoader } from "three/examples/jsm/Addons.js";
+import { HDRI } from "../data/types";
 
 export class SceneView {
   public scene: THREE.Scene;
@@ -78,6 +80,37 @@ export class SceneView {
       }
     });
     this.currentLevelGroup = undefined;
+  }
+
+  public async setBackground({
+    url,
+    envIntensity = 1.0,
+    bgIntensity = 1.0,
+    blur = 0.0,
+  }: HDRI): Promise<void> {
+    this.scene.environment?.dispose();
+
+    this.scene.environmentIntensity = envIntensity;
+    this.scene.backgroundIntensity = bgIntensity;
+    this.scene.backgroundBlurriness = blur;
+
+    return new Promise((resolve, reject) => {
+      const loader = new HDRLoader();
+      loader.load(
+        url,
+        (texData) => {
+          texData.mapping = THREE.EquirectangularReflectionMapping;
+          this.scene.background = texData;
+          this.scene.environment = texData;
+          resolve();
+        },
+        undefined,
+        (err) => {
+          console.error(`${this} Failed to load HDR at "${url}":`, err);
+          resolve();
+        },
+      );
+    });
   }
 
   public render(): void {

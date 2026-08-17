@@ -1,12 +1,5 @@
 import RAPIER from "@dimforge/rapier3d-compat";
-
-interface PhysicsConfig {
-  gravity: { x: number; y: number; z: number };
-  ballRadius: number;
-  ballSpawn: { x: number; y: number; z: number };
-  linvelThreshold: number;
-  fallThreshold?: number;
-}
+import type { PhysicsConfig } from "./types";
 
 export class PhysicsController {
   private world!: RAPIER.World;
