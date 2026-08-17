@@ -3,6 +3,7 @@ export interface HDRI {
   envIntensity?: number;
   bgIntensity?: number;
   blur?: number;
+  rotY?: number;
 }
 
 export interface LevelDefinition {

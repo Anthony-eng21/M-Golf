@@ -103,6 +103,7 @@ async function loadLevel(idx: number): Promise<void> {
     envIntensity: level?.hdr?.envIntensity,
     bgIntensity: level?.hdr?.bgIntensity,
     blur: level?.hdr?.blur,
+    rotY: level?.hdr?.rotY,
   } as HDRI;
   level.hdr && (await sceneView.setBackground(hdr));
 

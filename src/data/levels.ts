@@ -1,19 +1,5 @@
-import type { HDRI } from "./types.ts";
 import type { LevelDefinition } from "./types.ts";
-
-const _day = "/hdr/kloppenheim_07_day.hdr";
-const day = {
-  url: _day,
-  envIntensity: 0.375,
-  bgIntensity: 0.75,
-} as HDRI;
-
-const _evening = "/hdr/qwantani_moon_noon_puresky_4k.hdr";
-const evening = {
-  url: _evening,
-  envIntensity: 0.2,
-  bgIntensity: 0.4,
-} as HDRI;
+import { day, evening, night } from "./hdr.js";
 
 export const levels: LevelDefinition[] = [
   {
@@ -48,6 +34,6 @@ export const levels: LevelDefinition[] = [
     fallThreshold: -24,
     spawn: { x: 0.5, y: 0.65, z: 0 },
     useAdaptiveCamera: { active: true, lerpNudge: 1.5, lerpSpeed: 0.035 },
-    hdr: evening,
+    hdr: night,
   },
 ];

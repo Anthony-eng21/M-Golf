@@ -87,12 +87,14 @@ export class SceneView {
     envIntensity = 1.0,
     bgIntensity = 1.0,
     blur = 0.0,
+    rotY = 0.0,
   }: HDRI): Promise<void> {
     this.scene.environment?.dispose();
 
     this.scene.environmentIntensity = envIntensity;
     this.scene.backgroundIntensity = bgIntensity;
     this.scene.backgroundBlurriness = blur;
+    this.scene.backgroundRotation.y = rotY;
 
     return new Promise((resolve, reject) => {
       const loader = new HDRLoader();
