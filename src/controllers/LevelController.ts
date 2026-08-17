@@ -1,17 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { LevelDefinition } from "../data/levels";
-
-export interface ColliderData {
-  vertices: Float32Array;
-  indices: Uint32Array;
-}
-
-export interface LevelResult {
-  scene: THREE.Group;
-  colliders: ColliderData[];
-  triggers: ColliderData[];
-}
+import type { LevelDefinition } from "../data/types.ts";
+import type { LevelResult, ColliderData } from "./types.ts";
 
 export class LevelController {
   private levels: LevelDefinition[];
