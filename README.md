@@ -17,14 +17,6 @@ npm install
 npm run dev
 ```
 
-**Initiatives**
-
-Some Running Initiatives to do before we can release the game:
-
-- [ ] **Create More Blender Golf Levels**. Let's shoot for 9.
-
-- [ ] **Visual Improvements** utilize custom shaders and improve materials from blender.
-
 **Resources**
 
 Physics:
@@ -39,13 +31,12 @@ Blender:
 - [Hole Creation](https://youtu.be/-0wyTP_Doxw?si=Gdw05NWRlOW6wagB)
   - "Blender Secrets, Youtube Channel. Video "Easy Holes with Beveled Vertices | Blender Secrets"
 
-The Golf Level Design done in blender uses Planes, Nurbs Path and some modifiers. The only modifiers used for now are: Array, Curve, Solidify and, That's it!
+- [Loop-de-Loop](https://www.youtube.com/watch?v=oYDJ-lChOX8)
+  - "Not So Greedy Games, Youtube Channel. Blender - How To make a Loop in 10 minutes!" 
+  1. Gabriel who runs the channel has some really other cool videos, I say he's worth subscribing to.
 
-**Disclaimer**
+The Golf Level Design done in blender uses these Types: Planes, Cylinders, Nurbs Path (don't export nurbs path/curve!) Modifiers being used are: Array, Curve, Solidify and, That's it!
 
-Please do not apply modifiers when modeling levels.
-
-**Contributing**
-
-Create an Issue then create a PR based off that issue with the same name.
-before committing make sure to run prettier on the code base before committing (TODO add pre-commit in the future.)
+**Contributing**:
+- Good to create issue first before your PR.
+- Make sure to run prettier on the code base before opening a PR.
