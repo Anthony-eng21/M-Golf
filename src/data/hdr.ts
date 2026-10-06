@@ -1,6 +1,6 @@
 import type { HDRI } from "./types.ts";
 
-const base = "/hdr/kloppenheim_07_puresky_1k.hdr";
+const base = "/assets/hdr/kloppenheim_07_puresky_1k.hdr";
 export const day = {
   url: base,
   envIntensity: 1,
@@ -14,7 +14,7 @@ export const evening = {
   rotY: 0.75,
 } as HDRI;
 
-const _night = "/hdr/kloppenheim_02_puresky_1k.hdr";
+const _night = "/assets/hdr/kloppenheim_02_puresky_1k.hdr";
 export const night = {
   url: _night,
   envIntensity: 0.05,
