@@ -1,7 +1,7 @@
 # M-Golf
 
-M-Golf Rapier &amp; Three.js
-
+M-Golf is a fun light-weight Golf game made with Rapier Physics &amp; Three.js inspired by [gwyf](https://gwyf.golf/) like physic mechanics
+<a href="https://m-golf.pages.dev/"><img width="1401" height="753" alt="Screenshot 2026-10-05 at 6 28 14 PM" src="https://github.com/user-attachments/assets/76e73f51-1c32-4094-93e4-7d76dbe8a809" /></a>
 **Prequisite Software**
 You want at least nodejs version `20.19.2`
 
