@@ -98,6 +98,7 @@ const overlay = new OverlayController(gameModel, {
 async function loadLevel(idx: number): Promise<void> {
   const level = levels[idx];
   const { scene, colliders, triggers } = await levelLoader.load(idx);
+  // TODO Simplify HDR: Make these non-dependent on level data (too expensive to evaluate this background and load a level simultaneously)
   const hdr = {
     url: level?.hdr?.url,
     envIntensity: level?.hdr?.envIntensity,
@@ -105,7 +106,7 @@ async function loadLevel(idx: number): Promise<void> {
     blur: level?.hdr?.blur,
     rotY: level?.hdr?.rotY,
   } as HDRI;
-  level.hdr && (await sceneView.setBackground(hdr));
+  level.hdr && sceneView.setBackground(hdr);
 
   physics.setSpawn(level.spawn);
   physics.setFallThreshold(level.fallThreshold ?? -3);

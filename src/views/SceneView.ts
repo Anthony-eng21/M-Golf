@@ -82,7 +82,7 @@ export class SceneView {
     this.currentLevelGroup = undefined;
   }
 
-  public async setBackground({
+  public setBackground({
     url,
     envIntensity = 1.0,
     bgIntensity = 1.0,
